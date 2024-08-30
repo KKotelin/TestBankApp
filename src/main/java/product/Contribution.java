@@ -1,13 +1,12 @@
 package product;
 
-import operations.ContributionAccountOperations;
 import util.Currency;
 
-public class Contribution extends Product implements ContributionAccountOperations {
-    private double initialBalance;
-    private int termInMonths;
-    private double interestRate;
-    private boolean isClosed;
+public abstract class Contribution extends Product {
+    protected double initialBalance;
+    protected int termInMonths;
+    protected double interestRate;
+    protected boolean isClosed;
 
     public Contribution(String name, Currency currency, double balance, int termInMonths, double interestRate) {
         super(name, currency, balance);
@@ -19,12 +18,14 @@ public class Contribution extends Product implements ContributionAccountOperatio
 
     @Override
     public double getBalance() {
-        if (isClosed) {
-            return 0;
-        } else {
-            return balance;
-        }
+        return isClosed ? 0 : balance;
     }
+
+    public abstract void deposit(double amount);
+
+    public abstract double calculateMaturityAmount();
+
+    public abstract double updateBalance();
 
     public void close() {
         if (isClosed) {
@@ -32,21 +33,6 @@ public class Contribution extends Product implements ContributionAccountOperatio
         }
         balance = 0;
         isClosed = true;
-    }
-
-    @Override
-    public void deposit(double amount) {
-        if (!isClosed) {
-            balance += amount;
-        }
-    }
-
-    public double calculateMaturityAmount() {
-        double monthlyRate = interestRate / 12;
-        double maturityAmount = initialBalance * Math.pow(1 + monthlyRate, termInMonths);
-        maturityAmount = Math.round(maturityAmount * 100.0) / 100.0;
-        balance = maturityAmount;
-        return balance;
     }
 
     public boolean isClosed() {

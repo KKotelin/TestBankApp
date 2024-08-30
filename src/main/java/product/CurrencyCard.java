@@ -6,7 +6,7 @@ public class CurrencyCard extends Card {
 
     public CurrencyCard(String name, Currency currency, double balance){
         super(name, currency, balance);
-        if (currency != Currency.EUR && currency != Currency.USD ) {
+        if (currency == Currency.RUB) {
             throw new IllegalArgumentException("Инностранная карта должна иметь валюту USD или EUR");
         }
     }
@@ -22,8 +22,7 @@ public class CurrencyCard extends Card {
             balance -= amount;
             return true;
         } else {
-            System.out.println("Недостаточно средств. Баланс не может уйти в минус.");
-            return false;
+            throw new IllegalArgumentException("Недостаточно средств");
         }
     }
 }

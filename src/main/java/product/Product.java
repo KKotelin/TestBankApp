@@ -22,5 +22,4 @@ public abstract class Product {
     public String getCurrency() {
         return currency;
     }
-
 }

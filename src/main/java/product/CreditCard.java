@@ -1,9 +1,8 @@
 package product;
 
-import operations.CreditCardOperations;
 import util.Currency;
 
-public class CreditCard extends Card implements CreditCardOperations {
+public class CreditCard extends Card{
     private double interestRate;
     private double initialBalance;
 

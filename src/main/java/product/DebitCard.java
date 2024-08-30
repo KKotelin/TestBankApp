@@ -22,8 +22,7 @@ public class DebitCard extends Card {
             balance -= amount;
             return true;
         } else {
-            System.out.println("Недостаточно средств. Баланс не может уйти в минус.");
-            return false;
+            throw new IllegalArgumentException("Недостаточно средств");
         }
     }
 }

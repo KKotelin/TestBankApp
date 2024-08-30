@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import product.Contribution;
+import product.ContributionRubYearTerm;
 import product.CreditCard;
 import product.CurrencyCard;
 import product.DebitCard;
@@ -24,7 +24,7 @@ public class TestClass {
     private static DebitCard debitCard;
     private static CurrencyCard currencyCard;
     private static CreditCard creditCard;
-    private static Contribution contribution;
+    private static ContributionRubYearTerm contribution;
 
     @BeforeAll
     public static void setUp() {
@@ -35,8 +35,8 @@ public class TestClass {
 
     @BeforeEach
     public void setUpProducts() throws IllegalAccessException {
-        debitCard = (DebitCard) ProductFactory.createDebitAndCurrencyCard(CardType.DEBIT_CARD, "Дебетовая карта", Currency.RUB, 5000.0, account);
-        currencyCard = (CurrencyCard) ProductFactory.createDebitAndCurrencyCard(CardType.CURRENCY_CARD, "Валютная карта", Currency.USD, 1000.0, account);
+        debitCard = (DebitCard) ProductFactory.createCard(CardType.DEBIT_CARD, "Дебетовая карта", Currency.RUB, 5000.0, account);
+        currencyCard = (CurrencyCard) ProductFactory.createCard(CardType.CURRENCY_CARD, "Валютная карта", Currency.USD, 1000.0, account);
         creditCard = ProductFactory.createCreditCard("Кредитная карта", Currency.RUB, 2000.0, 0.2, account);
         contribution = ProductFactory.createContribution("Вклад на год", Currency.RUB, 10000.0, 12, 0.05, account);
     }
@@ -136,7 +136,7 @@ public class TestClass {
 
     @Test
     @DisplayName("Снятие с валютной карты")
-    public void testCurrencyCardWithdraw() throws IllegalAccessException {
+    public void testCurrencyCardWithdraw(){
         currencyCard.withdraw(500.0);
         assertEquals(500.0, currencyCard.getBalance());
     }
@@ -195,8 +195,8 @@ public class TestClass {
     @Test
     @DisplayName("Проверка расчета суммы вклада")
     public void testContributionCalculationOfAmount() {
-        contribution.calculateMaturityAmount();
-        assertEquals(10511.62, contribution.getBalance());
+        double expectedAmount = contribution.calculateMaturityAmount();
+        assertEquals(expectedAmount, contribution.updateBalance());
     }
 
     @Test

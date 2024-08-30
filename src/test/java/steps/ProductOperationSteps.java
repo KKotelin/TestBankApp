@@ -5,7 +5,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.Account;
 import model.Profile;
-import product.Contribution;
+import product.ContributionRubYearTerm;
 import product.CreditCard;
 import product.CurrencyCard;
 import product.DebitCard;
@@ -26,7 +26,7 @@ public class ProductOperationSteps {
     private DebitCard debitCard;
     private CreditCard creditCard;
     private CurrencyCard currencyCard;
-    private Contribution contribution;
+    private ContributionRubYearTerm contribution;
 
     @Given("Открыт аккаунт с номером {string} и профилем {string}")
     public void openAccountWithProfile(String accountNumber, String profileName) {
@@ -37,7 +37,7 @@ public class ProductOperationSteps {
     @When("Создать дебетовую карту с именем {string}, валютой {string}, балансом {double}")
     public void whenCreateDebitCard(String name, String currencyString, double balance) throws IllegalAccessException {
         Currency currency = Currency.valueOf(currencyString.toUpperCase());
-        debitCard = (DebitCard) ProductFactory.createDebitAndCurrencyCard(CardType.DEBIT_CARD, name, currency, balance, account);
+        debitCard = (DebitCard) ProductFactory.createCard(CardType.DEBIT_CARD, name, currency, balance, account);
     }
 
     @When("Создать кредитную карту с именем {string}, валютой {string}, балансом {double} и процентной ставкой {double}")
@@ -49,7 +49,7 @@ public class ProductOperationSteps {
     @When("Создать валютную карту с именем {string}, валютой {string}, балансом {double}")
     public void whenCreateCurrencyCard(String name, String currencyString, double balance) throws IllegalAccessException {
         Currency currency = Currency.valueOf(currencyString.toUpperCase());
-        currencyCard = (CurrencyCard) ProductFactory.createDebitAndCurrencyCard(CardType.CURRENCY_CARD, name, currency, balance, account);
+        currencyCard = (CurrencyCard) ProductFactory.createCard(CardType.CURRENCY_CARD, name, currency, balance, account);
     }
 
     @When("Создать вклад с именем {string}, валютой {string}, балансом {double}, сроком {int} месяцев и процентной ставкой {double}")
@@ -96,8 +96,8 @@ public class ProductOperationSteps {
 
     @When("Запросить баланс кредитной карты")
     public void getCreditCardBalance() {
-        double balance = creditCard.getBalance();
-        System.out.println("Баланс кредитной карты: " + balance);
+        creditCard.getBalance();
+
     }
 
     @When("Пополнить вклад на сумму {double}")

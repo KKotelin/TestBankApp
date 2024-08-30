@@ -2,7 +2,7 @@ package service;
 
 import model.Account;
 import product.Card;
-import product.Contribution;
+import product.ContributionRubYearTerm;
 import product.CreditCard;
 import product.CurrencyCard;
 import product.DebitCard;
@@ -10,8 +10,7 @@ import util.CardType;
 import util.Currency;
 
 public class ProductFactory {
-
-    public static Card createDebitAndCurrencyCard(CardType type, String name, Currency currency, double balance, Account account) throws IllegalAccessException {
+    public static Card createCard(CardType type, String name, Currency currency, double balance, Account account) throws IllegalAccessException {
         Card card;
         switch (type) {
             case DEBIT_CARD:
@@ -36,8 +35,8 @@ public class ProductFactory {
         return creditCard;
     }
 
-    public static Contribution createContribution(String name, Currency currency, double balance, int termInMonths, double interestRate, Account account) {
-        Contribution contribution = new Contribution(name, currency, balance, termInMonths, interestRate);
+    public static ContributionRubYearTerm createContribution(String name, Currency currency, double balance, int termInMonths, double interestRate, Account account) {
+        ContributionRubYearTerm contribution = new ContributionRubYearTerm(name, currency, balance, termInMonths, interestRate);
         account.addProduct(contribution);
         return contribution;
     }
